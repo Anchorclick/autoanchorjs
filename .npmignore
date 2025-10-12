@@ -1,0 +1,38 @@
+# Source files
+src/
+rust/
+scripts/
+examples/
+
+# Development files
+*.test.ts
+*.test.js
+__tests__/
+jest.config.js
+tsconfig.json
+
+# Build artifacts
+*.tsbuildinfo
+
+# Documentation
+README.md
+LICENSE
+
+# Git files
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Dependencies (will be installed by users)
+node_modules/

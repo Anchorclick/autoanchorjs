@@ -1,0 +1,58 @@
+{
+  "name": "autoanchorjs",
+  "version": "1.0.1",
+  "description": "Cross-platform automation library using Rust binaries for cursor, mouse, and keyboard control",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run build:rust && npm run build:js",
+    "build:rust": "cd rust && cargo build --release",
+    "build:js": "tsc",
+    "build:all": "npm run build:rust && npm run build:js && npm run copy:binaries",
+    "copy:binaries": "node scripts/copy-binaries.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "prepublishOnly": "npm run build:all",
+    "dev": "npm run build:rust && npm run build:js && npm run copy:binaries",
+    "clean": "rm -rf dist && cd rust && cargo clean"
+  },
+  "keywords": [
+    "automation",
+    "cursor",
+    "mouse",
+    "keyboard",
+    "rust",
+    "cross-platform",
+    "robot",
+    "nutjs"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sewellstephens/autoanchorjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sewellstephens/autoanchorjs/issues"
+  },
+  "homepage": "https://github.com/sewellstephens/autoanchorjs#readme",
+  "files": [
+    "dist/",
+    "binaries/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "dependencies": {
+    "node-addon-api": "^7.0.0"
+  }
+}
