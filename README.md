@@ -241,12 +241,12 @@ The Rust binary handles all the low-level system calls for mouse and keyboard co
 
 ## Comparison with Other Libraries
 
-| Feature | AutoAnchor | nutjs | robotjs |
+| Feature | AutoAnchorJS | nut.js | RobotJS |
 |---------|------------|-------|---------|
 | Performance | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
 | Cross-Platform | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
 | TypeScript | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
-| Maintenance | ⭐⭐⭐⭐⭐ | ⭐ | ⭐ |
+| Maintenance | ⭐⭐⭐⭐ | ⭐ | ⭐ |
 | Bundle Size | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
 | 
 
