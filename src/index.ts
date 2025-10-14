@@ -129,7 +129,7 @@ class AutoAnchor {
   async pressKey(key: string, modifiers?: string[]): Promise<void> {
     const args = ['press-key', key];
     if (modifiers && modifiers.length > 0) {
-      args.push('--modifiers', ...modifiers);
+      args.push(...modifiers);
     }
     
     const result = await this.executeCommand(args);

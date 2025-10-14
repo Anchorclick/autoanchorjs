@@ -176,7 +176,20 @@ fn char_to_vk_code(ch: char) -> u16 {
 }
 
 fn key_to_vk_code(key: &str) -> u16 {
-    match key.to_lowercase().as_str() {
+    let key_lower = key.to_lowercase();
+    
+    // Handle single letter keys
+    if key_lower.len() == 1 {
+        let ch = key_lower.chars().next().unwrap();
+        if ch >= 'a' && ch <= 'z' {
+            return (ch as u16 - 'a' as u16) + 0x41; // VK_A to VK_Z
+        }
+        if ch >= '0' && ch <= '9' {
+            return (ch as u16 - '0' as u16) + 0x30; // VK_0 to VK_9
+        }
+    }
+    
+    match key_lower.as_str() {
         "enter" | "return" => 0x0D, // VK_RETURN
         "space" => 0x20, // VK_SPACE
         "tab" => 0x09, // VK_TAB
