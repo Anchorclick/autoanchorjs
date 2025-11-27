@@ -36,6 +36,8 @@ enum Commands {
     },
     /// Get screen size
     ScreenSize,
+    /// Take a screenshot and return it as base64-encoded PNG
+    Screenshot,
 }
 
 fn main() {
@@ -103,6 +105,25 @@ fn main() {
                     message: None,
                     data: Some(serde_json::to_value(size).unwrap()),
                 },
+                Err(e) => AutomationResult {
+                    success: false,
+                    message: Some(e),
+                    data: None,
+                },
+            }
+        }
+        Commands::Screenshot => {
+            match autoanchor_core::screen::windows::take_screenshot() {
+                Ok(bytes) => {
+                    // base64-encode the PNG bytes and return in JSON
+                    use base64::{engine::general_purpose, Engine as _};
+                    let b64 = general_purpose::STANDARD.encode(&bytes);
+                    AutomationResult {
+                        success: true,
+                        message: None,
+                        data: Some(serde_json::to_value(b64).unwrap()),
+                    }
+                }
                 Err(e) => AutomationResult {
                     success: false,
                     message: Some(e),

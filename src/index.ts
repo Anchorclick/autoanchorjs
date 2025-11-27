@@ -150,6 +150,18 @@ class AutoAnchor {
   }
 
   /**
+   * Take a screenshot (PNG) and return as a Buffer
+   */
+  async takeScreenshot(): Promise<Buffer> {
+    const result = await this.executeCommand(['screenshot']);
+    if (result.success && result.data) {
+      const b64 = result.data as string;
+      return Buffer.from(b64, 'base64');
+    }
+    throw new Error(result.message || 'Failed to take screenshot');
+  }
+
+  /**
    * Convenience method for left click
    */
   async leftClick(x?: number, y?: number): Promise<void> {
@@ -236,3 +248,4 @@ export const pressCtrlC = () => autoAnchor.pressCtrlC();
 export const pressCtrlV = () => autoAnchor.pressCtrlV();
 export const pressCtrlA = () => autoAnchor.pressCtrlA();
 export const getScreenSize = () => autoAnchor.getScreenSize();
+export const takeScreenshot = () => autoAnchor.takeScreenshot();
