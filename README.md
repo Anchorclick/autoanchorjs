@@ -2,6 +2,12 @@
 
 A cross-platform automation library that uses Rust binaries for high-performance cursor, mouse, and keyboard control. Similar to nutjs or robotjs, but with the reliability and performance of Rust.
 
+## Overview
+
+AutoAnchorJS was built not only to provide robust automation capabilities but also to address the shortcomings of existing libraries. By leveraging Rust for the backend, AutoAnchorJS ensures high performance and stability across all major operating systems. The Node.js frontend offers a simple and intuitive API, making it easy for developers to integrate automation features into their applications.
+
+AutoAnchorJS is used internally at Anchorclick to power our new RPA (Robotic Process Automation) Desktop agent (wip), enabling us to automate desktop tasks efficiently and reliably with AI-powered workflows.
+
 ## Features
 
 - 🖱️ **Mouse Control**: Move cursor, click (left/right/middle), get position
@@ -116,6 +122,24 @@ await autoAnchor.pressKey('enter');
 // Press key with modifiers
 await autoAnchor.pressKey('c', ['ctrl']); // Ctrl+C
 await autoAnchor.pressKey('v', ['ctrl', 'shift']); // Ctrl+Shift+V
+```
+
+### Screen Functions
+
+#### `getScreenSize(): Promise<Point>`
+Get the screen dimensions.
+
+```javascript
+const screenSize = await autoAnchor.getScreenSize();
+console.log(`Screen: ${screenSize.x}x${screenSize.y}`);
+```
+
+#### `takeScreenshot(x?: number, y?: number, width?: number, height?: number): Promise<Buffer>`
+Take a screenshot of the specified area or the entire screen.
+
+```javascript
+const screenshot = await autoAnchor.takeScreenshot();
+require('fs').writeFileSync('screenshot.png', screenshot);
 ```
 
 #### Convenience Methods
