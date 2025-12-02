@@ -2,8 +2,10 @@ use super::super::AutomationResult;
 use winapi::um::winuser::*;
 use winapi::um::errhandlingapi::GetLastError;
 
-pub fn type_text(text: &str) -> Result<AutomationResult, String> {
+pub fn type_text(text: &str, delay_ms: Option<u64>) -> Result<AutomationResult, String> {
     unsafe {
+    // Default per-key delay (milliseconds) -- made slower per request
+    let delay = delay_ms.unwrap_or(50);
         for ch in text.chars() {
             let vk_code = char_to_vk_code(ch);
             if vk_code == 0 {
@@ -29,8 +31,8 @@ pub fn type_text(text: &str) -> Result<AutomationResult, String> {
                 return Err(format!("Failed to send key down: {}", GetLastError()));
             }
 
-            // Small delay
-            std::thread::sleep(std::time::Duration::from_millis(10));
+            // Small delay after key down
+            std::thread::sleep(std::time::Duration::from_millis(delay));
 
             // Key up
             let mut input_up = INPUT {
@@ -51,7 +53,8 @@ pub fn type_text(text: &str) -> Result<AutomationResult, String> {
                 return Err(format!("Failed to send key up: {}", GetLastError()));
             }
 
-            std::thread::sleep(std::time::Duration::from_millis(10));
+            // Small delay after key up
+            std::thread::sleep(std::time::Duration::from_millis(delay));
         }
 
         Ok(AutomationResult {

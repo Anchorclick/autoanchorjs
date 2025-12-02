@@ -1,6 +1,6 @@
 {
   "name": "autoanchorjs",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Cross-platform automation library using Rust binaries for cursor, mouse, and keyboard control",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

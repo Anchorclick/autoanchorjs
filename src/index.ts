@@ -116,8 +116,10 @@ class AutoAnchor {
   /**
    * Type text at the current cursor position
    */
-  async typeText(text: string): Promise<void> {
-    const result = await this.executeCommand(['type-text', text]);
+  async typeText(text: string, delayMs?: number): Promise<void> {
+    const args = ['type-text', text];
+    if (typeof delayMs === 'number') args.push(delayMs.toString());
+    const result = await this.executeCommand(args);
     if (!result.success) {
       throw new Error(result.message || 'Failed to type text');
     }
@@ -152,8 +154,10 @@ class AutoAnchor {
   /**
    * Take a screenshot (PNG) and return as a Buffer
    */
-  async takeScreenshot(): Promise<Buffer> {
-    const result = await this.executeCommand(['screenshot']);
+  async takeScreenshot(activeWindow?: boolean): Promise<Buffer> {
+    const args = ['screenshot'];
+    if (activeWindow) args.push('--active-window');
+    const result = await this.executeCommand(args);
     if (result.success && result.data) {
       const b64 = result.data as string;
       return Buffer.from(b64, 'base64');
@@ -239,7 +243,7 @@ export const click = (button?: 'left' | 'right' | 'middle', x?: number, y?: numb
 export const leftClick = (x?: number, y?: number) => autoAnchor.leftClick(x, y);
 export const rightClick = (x?: number, y?: number) => autoAnchor.rightClick(x, y);
 export const middleClick = (x?: number, y?: number) => autoAnchor.middleClick(x, y);
-export const typeText = (text: string) => autoAnchor.typeText(text);
+export const typeText = (text: string, delayMs?: number) => autoAnchor.typeText(text, delayMs);
 export const pressKey = (key: string, modifiers?: string[]) => autoAnchor.pressKey(key, modifiers);
 export const pressEnter = () => autoAnchor.pressEnter();
 export const pressTab = () => autoAnchor.pressTab();

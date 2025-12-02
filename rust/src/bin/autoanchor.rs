@@ -28,6 +28,8 @@ enum Commands {
     /// Type text
     TypeText {
         text: String,
+        /// Optional per-key delay in milliseconds (slower typing)
+        delay_ms: Option<u64>,
     },
     /// Press a key with optional modifiers
     PressKey {
@@ -37,7 +39,11 @@ enum Commands {
     /// Get screen size
     ScreenSize,
     /// Take a screenshot and return it as base64-encoded PNG
-    Screenshot,
+    Screenshot {
+        /// Capture only the active/foreground window
+        #[arg(long)]
+        active_window: bool,
+    },
 }
 
 fn main() {
@@ -78,8 +84,8 @@ fn main() {
                 },
             }
         }
-        Commands::TypeText { text } => {
-            match type_text(&text) {
+        Commands::TypeText { text, delay_ms } => {
+            match type_text(&text, delay_ms) {
                 Ok(result) => result,
                 Err(e) => AutomationResult {
                     success: false,
@@ -112,8 +118,8 @@ fn main() {
                 },
             }
         }
-        Commands::Screenshot => {
-            match autoanchor_core::screen::windows::take_screenshot() {
+        Commands::Screenshot { active_window } => {
+            match autoanchor_core::screen::windows::take_screenshot(active_window) {
                 Ok(bytes) => {
                     // base64-encode the PNG bytes and return in JSON
                     use base64::{engine::general_purpose, Engine as _};

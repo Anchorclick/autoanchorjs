@@ -68,10 +68,10 @@ pub fn click(button: &str, x: Option<i32>, y: Option<i32>) -> Result<AutomationR
     }
 }
 
-pub fn type_text(text: &str) -> Result<AutomationResult, String> {
+pub fn type_text(text: &str, delay_ms: Option<u64>) -> Result<AutomationResult, String> {
     #[cfg(target_os = "windows")]
     {
-        keyboard::windows::type_text(text)
+        keyboard::windows::type_text(text, delay_ms)
     }
     #[cfg(not(target_os = "windows"))]
     {

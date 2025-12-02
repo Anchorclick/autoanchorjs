@@ -53,7 +53,8 @@ async function example() {
 
 ### Mouse Functions
 
-#### `getCursorPosition(): Promise<Point>`
+#### `getCursorPosition(): Promise<Point>`/
+
 Get the current cursor position.
 
 ```javascript
@@ -62,6 +63,7 @@ console.log(`x: ${position.x}, y: ${position.y}`);
 ```
 
 #### `moveCursor(x: number, y: number): Promise<void>`
+
 Move the cursor to the specified coordinates.
 
 ```javascript
@@ -69,6 +71,7 @@ await autoAnchor.moveCursor(100, 200);
 ```
 
 #### `click(button?: 'left' | 'right' | 'middle', x?: number, y?: number): Promise<void>`
+
 Click at the specified coordinates or current position.
 
 ```javascript
@@ -83,6 +86,7 @@ await autoAnchor.click('right');
 ```
 
 #### `leftClick(x?: number, y?: number): Promise<void>`
+
 Convenience method for left clicking.
 
 ```javascript
@@ -90,6 +94,7 @@ await autoAnchor.leftClick(100, 200);
 ```
 
 #### `rightClick(x?: number, y?: number): Promise<void>`
+
 Convenience method for right clicking.
 
 ```javascript
@@ -97,6 +102,7 @@ await autoAnchor.rightClick();
 ```
 
 #### `middleClick(x?: number, y?: number): Promise<void>`
+
 Convenience method for middle clicking.
 
 ```javascript
@@ -105,14 +111,20 @@ await autoAnchor.middleClick();
 
 ### Keyboard Functions
 
-#### `typeText(text: string): Promise<void>`
-Type text at the current cursor position.
+#### `typeText(text: string, delayMs?: number): Promise<void>`
+
+Type text at the current cursor position. Optionally supply `delayMs` to slow down typing (milliseconds per key). The default per-key delay is 50ms.
 
 ```javascript
+// Default (50ms per key)
 await autoAnchor.typeText('Hello, World!');
+
+// Slower typing (100ms per key)
+await autoAnchor.typeText('Hello, World!', 100);
 ```
 
 #### `pressKey(key: string, modifiers?: string[]): Promise<void>`
+
 Press a key with optional modifiers.
 
 ```javascript
@@ -127,6 +139,7 @@ await autoAnchor.pressKey('v', ['ctrl', 'shift']); // Ctrl+Shift+V
 ### Screen Functions
 
 #### `getScreenSize(): Promise<Point>`
+
 Get the screen dimensions.
 
 ```javascript
@@ -134,12 +147,18 @@ const screenSize = await autoAnchor.getScreenSize();
 console.log(`Screen: ${screenSize.x}x${screenSize.y}`);
 ```
 
-#### `takeScreenshot(x?: number, y?: number, width?: number, height?: number): Promise<Buffer>`
-Take a screenshot of the specified area or the entire screen.
+#### `takeScreenshot(activeWindow?: boolean): Promise<Buffer>`
+
+Take a screenshot of the entire screen (default) or, if `activeWindow` is true, of the current active/foreground window.
 
 ```javascript
+// Full screen
 const screenshot = await autoAnchor.takeScreenshot();
 require('fs').writeFileSync('screenshot.png', screenshot);
+
+// Active window only
+const active = await autoAnchor.takeScreenshot(true);
+require('fs').writeFileSync('screenshot-active.png', active);
 ```
 
 #### Convenience Methods
@@ -156,6 +175,7 @@ await autoAnchor.pressCtrlA();    // Press Ctrl+A
 ### Screen Functions
 
 #### `getScreenSize(): Promise<Point>`
+
 Get the screen dimensions.
 
 ```javascript
@@ -166,6 +186,7 @@ console.log(`Screen: ${screenSize.x}x${screenSize.y}`);
 ## Supported Keys
 
 ### Special Keys
+
 - `enter`, `return`
 - `space`
 - `tab`
@@ -174,6 +195,7 @@ console.log(`Screen: ${screenSize.x}x${screenSize.y}`);
 - `delete`
 
 ### Modifier Keys
+
 - `ctrl`, `control`
 - `alt`, `option` (macOS)
 - `shift`
@@ -182,28 +204,31 @@ console.log(`Screen: ${screenSize.x}x${screenSize.y}`);
 - `super` (Linux)
 
 ### Arrow Keys
+
 - `up`
 - `down`
 - `left`
 - `right`
 
 ### Function Keys
+
 - `f1` through `f12`
 
 ### Letters and Numbers
+
 - `a` through `z`
 - `0` through `9`
 
 ## Platform Support
 
 | Platform | Architecture | Status |
-|----------|-------------|---------|
-| Windows  | x64         | ✅      |
-| Windows  | ARM64       | ✅      |
-| macOS    | x64         | ✅      |
-| macOS    | ARM64       | ✅      |
-| Linux    | x64         | ✅      |
-| Linux    | ARM64       | ✅      |
+| -------- | ------------ | ------ |
+| Windows  | x64          | ✅      |
+| Windows  | ARM64        | ✅      |
+| macOS    | x64          | ✅      |
+| macOS    | ARM64        | ✅      |
+| Linux    | x64          | ✅      |
+| Linux    | ARM64        | ✅      |
 
 ## Development
 
@@ -265,14 +290,13 @@ The Rust binary handles all the low-level system calls for mouse and keyboard co
 
 ## Comparison with Other Libraries
 
-| Feature | AutoAnchorJS | nut.js | RobotJS |
-|---------|------------|-------|---------|
-| Performance | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| Cross-Platform | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
-| TypeScript | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
-| Maintenance | ⭐⭐⭐⭐ | ⭐ | ⭐ |
-| Bundle Size | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| 
+| Feature     | AutoAnchorJS | nut.js | RobotJS |
+| ----------- | ------------ | ------ | ------- |
+| Performance | ⭐⭐⭐⭐⭐        | ⭐⭐⭐⭐⭐  | ⭐⭐⭐     |
+| TypeScript  | ⭐⭐⭐⭐⭐        | ⭐⭐⭐⭐   | ⭐⭐⭐     |
+| Maintenance | ⭐⭐⭐⭐         | ⭐      | ⭐       |
+| Bundle Size | ⭐⭐⭐⭐         | ⭐⭐⭐    | ⭐⭐⭐     |
+|             |              |        |         |
 
 ## Contributing
 
@@ -291,15 +315,18 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ### Common Issues
 
 **Binary not found error**
+
 - Make sure you've run `npm run build` after installation
 - Check that the binary exists in `binaries/[platform]/[arch]/`
 
 **Permission denied (Linux/macOS)**
+
 - You may need to grant accessibility permissions
 - On macOS: System Preferences → Security & Privacy → Accessibility
 - On Linux: Ensure your user is in the appropriate groups
 
 **Build failures**
+
 - Ensure you have the required build tools installed
 - Check that Rust is properly installed: `rustc --version`
 - Verify platform-specific dependencies are installed
